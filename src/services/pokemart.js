@@ -12,4 +12,9 @@ function signUp(body) {
   return promise;
 }
 
-export { postLogin, signUp };
+function getProducts() {
+  const promise = axios.get(`${URL_BASE}/products`);
+  return promise;
+}
+
+export { postLogin, signUp, getProducts };
