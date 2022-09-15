@@ -18,15 +18,15 @@ export default function SignUp() {
     } else {
       const body = { name, email, password };
       signUp(body)
-        .catch((error) => {
-          return alert(error.message);
-        })
         .then((res) => {
           alert("Cadastrado com sucesso");
           setName("");
           setEmail("");
           setPassword("");
           setPasswordConfirme("");
+        })
+        .catch((error) => {
+          return alert(error.message);
         });
     }
   }

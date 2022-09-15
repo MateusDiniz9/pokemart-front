@@ -81,6 +81,7 @@ const User = styled.div`
   width: 150px;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
 `;
 const Perfil = styled.div`
   display: flex;
