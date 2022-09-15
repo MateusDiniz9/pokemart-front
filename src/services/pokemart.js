@@ -29,10 +29,22 @@ function confirmCheckout(order) {
   return promise;
 }
 
+function getCart() {
+  const config = Header();
+  const promise = axios.get(`${URL_BASE}/cart`, config);
+  return promise;
+}
+
+function postPurchase(cart) {
+  const config = Header();
+  const promise = axios.post(`${URL_BASE}/cart`, cart, config);
+  return promise;
+}
+
 function getCheckout(saleId) {
   const config = Header();
   const promise = axios.get(`${URL_BASE}/checkout/${saleId}`, config);
   return promise;
 }
 
-export { postLogin, signUp, confirmCheckout, getCheckout };
+export { postLogin, signUp, confirmCheckout, getCart, postPurchase, getCheckout };
