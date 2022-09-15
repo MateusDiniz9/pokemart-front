@@ -2,14 +2,15 @@ import React from "react";
 import styled from "styled-components";
 
 export default function CheckoutProduct({ product }) {
+    console.log(product)
     return(
         <>
             <Container>
                     <div>
-                        <TransactionDescription>{product[0]}</TransactionDescription>
+                        <TransactionDescription>{product.name}</TransactionDescription>
                     </div>
                     <div>
-                        <TransactionValue>{product[1]}</TransactionValue>
+                        <TransactionValue>{}</TransactionValue>
                     </div>
             </Container>
         </>

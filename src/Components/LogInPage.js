@@ -41,7 +41,7 @@ function LogInPage() {
             shoppingCart: resposta.data.shoppingCart,
           })
         );
-        navigate("/home");
+        navigate("/");
       })
       .catch((erro) => {
         alert("Não foi possível logar, tente novamente");

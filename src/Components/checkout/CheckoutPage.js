@@ -1,25 +1,25 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Loading from "../../commons/Loading";
 import { getCheckout } from "../../services/pokemart";
 //import header
-import CheckoutProduct from "../CheckoutProduct";
+import CheckoutProduct from "./CheckoutProduct";
 
 function CheckoutPage() {
-  const [checkout, setCheckout] = useState({
-    _id: "63235e7b80cc16498fecb6ad",
-    userId: "63226d298462a4c259ed79e8",
-    paymentMethod: "pix",
-    products: [['snorlax', 1], ['squirtle', 2], ['pokeball', 98]]
-  });
+  const { saleId } = useParams();
+  const [checkout, setCheckout] = useState([]);
 
-  // useEffect(() => {
-  //   getCheckout()
-  //       .then(res => setCheckout(res.data))
-  //       .catch(erro => console.log(erro))
-  // }, []);
+  useEffect(() => {
+    getCheckout(saleId)
+        .then(res => setCheckout(res.data))
+        .catch(erro => console.log(erro))
+  }, [saleId]);
+
+  if(checkout && checkout.length !== 0) {
+    console.log(checkout)
+  }
 
   return (
     <>
@@ -28,7 +28,7 @@ function CheckoutPage() {
           <h1>Parabéns pela sua compra!</h1>
           <h2>{`O método de pagamento utilizado foi ${checkout.paymentMethod}`}</h2>
             <Box>
-                {checkout ? checkout.products.map(product => <CheckoutProduct product={product}/>) : <Loading />}
+                {checkout && checkout.length !== 0 ? checkout.products.map((product, index) => <CheckoutProduct key={index} product={product[0]}/>) : <Loading />}
             </Box>
             <Link to="/">
             <h3>Quer voltar e dar uma olhadinha em outros produtos?</h3>

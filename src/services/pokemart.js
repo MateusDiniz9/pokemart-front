@@ -23,10 +23,16 @@ function Header() {
   return config;
 }
 
-function getCheckout() {
+function confirmCheckout(order) {
   const config = Header();
-  const promise = axios.get(`${URL_BASE}/checkout`, '', config);
+  const promise = axios.post(`${URL_BASE}/checkout`, order, config);
   return promise;
 }
 
-export { postLogin, signUp, getCheckout };
+function getCheckout(saleId) {
+  const config = Header();
+  const promise = axios.get(`${URL_BASE}/checkout/${saleId}`, config);
+  return promise;
+}
+
+export { postLogin, signUp, confirmCheckout, getCheckout };

@@ -14,7 +14,8 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LogInPage />} />
           <Route path="/cadastro" element={<SignUp />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/cart" element={<CheckoutPage />} />
+          <Route path="/checkout/:saleId" element={<CheckoutPage />} />
         </Routes>
       </BrowserRouter>
     </>
