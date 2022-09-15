@@ -41,7 +41,7 @@ function LogInPage() {
             shoppingCart: resposta.data.shoppingCart,
           })
         );
-        navigate("/home");
+        navigate("/");
       })
       .catch((erro) => {
         alert("Não foi possível logar, tente novamente");
@@ -77,7 +77,7 @@ function LogInPage() {
           {sending ? <Loading /> : "Entrar"}{" "}
         </Button>
       </Box>
-      <Link to="/sign-up">
+      <Link to="/cadastro">
         <h3>Primeira vez? Cadastre-se conosco!</h3>
       </Link>
     </Main>

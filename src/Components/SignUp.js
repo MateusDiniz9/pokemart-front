@@ -19,10 +19,14 @@ export default function SignUp() {
       const body = { name, email, password };
       signUp(body)
         .catch((error) => {
-          console.log(error);
+          return alert(error.message);
         })
         .then((res) => {
           alert("Cadastrado com sucesso");
+          setName("");
+          setEmail("");
+          setPassword("");
+          setPasswordConfirme("");
         });
     }
   }
@@ -48,14 +52,14 @@ export default function SignUp() {
           required
         />
         <input
-          type="text"
+          type="password"
           placeholder="Senha"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
         <input
-          type="text"
+          type="password"
           placeholder="Confirme a senha"
           value={passwordConfirme}
           onChange={(e) => setPasswordConfirme(e.target.value)}
