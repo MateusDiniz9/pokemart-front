@@ -20,7 +20,7 @@ function CartPage() {
     } else {
         setCart(localData.cart);
     }
-  }, []);
+  }, [localData.token, localData.cart]);
 
   function confirmPurchase() {
     if (window.confirm('Você deseja confirmar essa compra?')) {
@@ -34,6 +34,7 @@ function CartPage() {
     }
 }
 
+console.log(cart)
   return (
     <>
         {/* <Header /> */}
@@ -41,7 +42,7 @@ function CartPage() {
           <h1>{localData?.token ? `${localData.username},` : 'Visitante,' } esse é seu carrinho:</h1>
 
             <ProductsBox>
-                {cart?.length !== 0 ? cart.products.map((product, index) => <CartProduct key={index} product={product[0]}/>) : 'Seu carrinho ainda está vazio, adicione alguns produtos!'}
+                {cart?.length !== 0 ? cart.products.map((product, index) => <CartProduct key={index} product={product} quantity={cart.products.filter(data => product.name === data.name).length}/>) : 'Seu carrinho ainda está vazio, adicione alguns produtos!'}
             </ProductsBox>
 
             <PaymentBox>
@@ -125,18 +126,13 @@ const Main = styled.div`
 `;
 
 const ProductsBox = styled.div`
-  background-color:red;
+  background-color: red;
   min-height: 300px;
   width: 90%;
   padding: 15px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-
-  div {
-    background-color: green;
-    padding: 5px;
-  }
 `;
 
 const PaymentBox = styled.form`
@@ -144,11 +140,19 @@ const PaymentBox = styled.form`
   width: 90%;
   padding: 15px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
 
   label {
     background-color: yellow;
     margin-left: 5px;
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    text-align: center;
+    width: 100px;
   }
 `;
 
