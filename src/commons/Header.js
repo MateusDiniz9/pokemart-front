@@ -1,12 +1,17 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import UserContext from "../contexts/UserContext";
+
 export default function Header() {
   const [logged, setLogged] = useState(Boolean);
   const [name, setName] = useState("");
+  const { cart } = useContext(UserContext);
+
   useEffect(() => {
     const userSerial = localStorage.getItem("pokemart");
     const user = JSON.parse(userSerial);
+
     if (user === null) {
       setLogged(false);
     } else {
@@ -22,6 +27,10 @@ export default function Header() {
 
   return (
     <Wraper>
+      <Cart>
+        <ion-icon name="cart-outline"></ion-icon>
+        <CartItens>{cart.length > 0 ? cart.length : "0"}</CartItens>
+      </Cart>
       <h1>
         <Link to="/">PokeMart</Link>
       </h1>
@@ -61,7 +70,7 @@ const Wraper = styled.div`
   justify-content: space-between;
   padding: 0px 10px;
   font-size: 35px;
-  z-index: 5;
+  z-index: 10;
   p {
     font-size: 13px;
   }
@@ -91,4 +100,25 @@ const Perfil = styled.div`
   div {
     margin-top: 3px;
   }
+`;
+const Cart = styled.div`
+  position: relative;
+  font-size: 50px;
+  color: white;
+`;
+const CartItens = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  font-size: 25px;
+  color: white;
+  bottom: 0px;
+  right: 5px;
+  border: 1px solid #ffcb05;
+  background-color: #ffcb05;
+  border-radius: 50%;
+  z-index: 10;
 `;
