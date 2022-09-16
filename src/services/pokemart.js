@@ -1,6 +1,9 @@
 import axios from "axios";
 
-const URL_BASE = "http://127.0.0.1:5000";
+const URL_BASE =
+  process.env.NODE_ENV === "development"
+    ? "http://127.0.0.1:5000"
+    : process.env.REACT_APP_API_BASE_URL;
 
 function postLogin(login) {
   const promise = axios.post(`${URL_BASE}/sign-in`, login);

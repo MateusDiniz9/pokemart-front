@@ -74,6 +74,6 @@ const Pokemon = styled.div`
     border-radius: 5px;
     width: 140px;
     height: 20px;
-    background-color: #ffdb57;
+    background-color: #ffcb05;
   }
 `;
