@@ -9,7 +9,9 @@ import CheckoutProduct from "./CheckoutProduct";
 
 function CheckoutPage() {
   const { saleId } = useParams();
+  const currencyTransform = 100;
   const [ checkout, setCheckout ] = useState([]);
+  const [ balance, setBalance ] = useState(0);
   const [ uniqueCheckoutProducts, setUniqueCheckoutProducts ] = useState([]);
 
   useEffect(() => {
@@ -19,9 +21,15 @@ function CheckoutPage() {
   }, [saleId]);
 
   useEffect(() => {
+    let temp = 0;
+    checkout.products?.forEach((data) => temp = temp + data.price);
+    setBalance(temp);
+  }, [checkout]);
+
+  useEffect(() => {
     const uniqueProducts = [];
     const uniqueIds = [];
-    checkout?.products.forEach(element => {
+    checkout.products?.forEach(element => {
       if (!uniqueIds.includes(element.id)) {
         uniqueIds.push(element.id);
         uniqueProducts.push(element);
@@ -34,9 +42,11 @@ function CheckoutPage() {
     <>
         {/* <Header /> */}
         <Main>
-          <h1>Parabéns pela sua compra!</h1>
-          <h2>{`O método de pagamento utilizado foi ${checkout.paymentMethod}`}</h2>
-    
+          <h1><span>username</span>, parabéns pela sua compra!</h1>
+          <h2>{`O método de pagamento utilizado foi `} <span>{checkout.paymentMethod}</span></h2>
+            <TotalBox>
+                <p>Total da sua compra: R$ {balance/currencyTransform}</p>
+            </TotalBox>
             <Box>
               {checkout && uniqueCheckoutProducts.length !== 0 ? uniqueCheckoutProducts.map((product, index) => <CheckoutProduct key={index} product={product} quantity={checkout.products.filter(element => product.name === element.name).length}/>) : <Loading />}
             </Box>
@@ -87,6 +97,22 @@ const Main = styled.div`
       cursor: default;
     }
   }
+  span {
+    color: yellow;
+  }
+`;
+
+const TotalBox = styled.div`
+  background-color: #FFCB05;
+  width: 100%;
+  height: 80px;
+  padding: 15px;
+  font-size: 24px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px 5px 0 0;
 `;
 
 const Box = styled.div`
@@ -96,5 +122,5 @@ const Box = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
-  border-radius: 5px;
+  border-radius: 0 0 5px 5px;
 `;
