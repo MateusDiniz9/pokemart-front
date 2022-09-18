@@ -35,9 +35,9 @@ function getCart() {
   return promise;
 }
 
-function postPurchase(cart) {
+function postPurchase(body) {
   const config = Header();
-  const promise = axios.post(`${URL_BASE}/cart`, cart, config);
+  const promise = axios.post(`${URL_BASE}/checkout`, body, config);
   return promise;
 }
 
@@ -47,16 +47,10 @@ function getCheckout(saleId) {
   return promise;
 }
 
-function changeProductQuantity(operation) {
+function updateCart(products) {
   const config = Header();
-  const promise = axios.post(`${URL_BASE}/cart`, operation, config);
+  const promise = axios.put(`${URL_BASE}/cart`, products, config);
   return promise;
 }
 
-function deleteProduct(productId) {
-  const config = Header();
-  const promise = axios.delete(`${URL_BASE}/cart`, productId, config);
-  return promise;
-}
-
-export { postLogin, signUp, confirmCheckout, getCart, postPurchase, getCheckout, changeProductQuantity, deleteProduct };
+export { postLogin, signUp, confirmCheckout, getCart, postPurchase, getCheckout, updateCart };

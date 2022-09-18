@@ -12,7 +12,13 @@ function CartPage() {
     const navigate = useNavigate();
     const [sending, setSending] = useState(false);
     const { cart, setCart } = useContext(CartContext);
-    const [localData] = useState(JSON.parse(localStorage.getItem('pokemart')))
+    const [ balance, setBalance ] = useState(0);
+    const [ uniqueCartProducts, setUniqueCartProducts ] = useState([]);
+    const [localData] = useState(JSON.parse(localStorage.getItem('pokemart')));
+    const [ purchase, setPurchase ] = useState({
+      paymentMethod: '',
+      products: []
+    })
 
   useEffect(() => {
     if (localData?.token) {
@@ -22,41 +28,68 @@ function CartPage() {
     } else {
         setCart(localData?.cart);
     }
-  }, [localData]);
+  }, [setCart, localData]);
 
-  function confirmPurchase() {
+  useEffect(() => {
+    const uniqueProducts = [];
+    const uniqueIds = [];
+    cart?.products.forEach(element => {
+      if (!uniqueIds.includes(element.id)) {
+        uniqueIds.push(element.id);
+        uniqueProducts.push(element)
+      }
+    })
+    setUniqueCartProducts(uniqueProducts);
+    setPurchase({ ...purchase, products: cart?.products })
+  }, [cart]);
+
+  useEffect(() => {
+    let temp = 0;
+    cart?.products.forEach((data) => temp = temp + data.price);
+    setBalance(temp);
+}, [cart]);
+
+  function updateInput(e) {
+    setPurchase({ ...purchase, [e.target.name]: e.target.value });
+  }
+
+  function confirmPurchase(e) {
     if (window.confirm('Você deseja confirmar essa compra?')) {
-        setSending(true)
-        postPurchase(cart)
-            .then(res => navigate(`/checkout/${res.data.saleId}`))
-            .catch(erro => {
-                alert('Não foi possível confirmar a sua compra, sentimos muito');
-                console.log(erro);
-        });
+      setSending(true)
+      postPurchase(purchase)
+        .then(res => navigate(`/checkout/${res.data.saleId}`))
+        .catch(erro => {
+          alert('Não foi possível confirmar a sua compra, sentimos muito');
+          console.log(erro);
+      });
     }
 }
 
-console.log(cart)
   return (
     <>
         {/* <Header /> */}
         <Main>
           <h1>{localData?.token ? `${<span>{localData.username}</span>},` : 'Visitante,' } esse é seu carrinho:</h1>
           <ProductsBox>
-              {cart && cart.length !== 0 ? cart.products.map((product, index) => <CartProduct key={index} product={product} quantity={cart.products.filter(data => product.name === data.name).length}/>) : 'Seu carrinho ainda está vazio, adicione alguns produtos!'}
+              {cart && uniqueCartProducts.length !== 0 ? uniqueCartProducts.map((product, index) => <CartProduct key={index} product={product} quantity={cart.products.filter(element => product.name === element.name).length}/>) : 'Seu carrinho ainda está vazio, adicione alguns produtos!'}
           </ProductsBox>
+          <TotalBox>
+            <p>Total: {balance}</p>
+          </TotalBox>
 
           <h2>Escolha a sua forma de pagamento:</h2>
-          <PaymentBox>
+          <form onSubmit={confirmPurchase}>
+            <PaymentBox>
               <div>
-                  <Input
-                      disabled={sending}
-                      type="radio"
-                      id="paymentMethod1"
-                      name="paymentMethod"
-                      value="Pix"
+                <Input
+                    disabled={sending}
+                    type="radio"
+                    id="paymentMethod1"
+                    name="paymentMethod"
+                    value="Pix"
+                    onChange={updateInput}
                   />
-                  <label for="paymentMethod1">Pix</label>
+                <label for="paymentMethod1">Pix</label>
               </div>
               <div>
                   <Input
@@ -65,6 +98,7 @@ console.log(cart)
                       id="paymentMethod2"
                       name="paymentMethod"
                       value="Cartão de crédito"
+                      onChange={updateInput}
                   />
                   <label for="paymentMethod2">Cartão de crédito</label>
               </div>
@@ -76,6 +110,7 @@ console.log(cart)
                       id="paymentMethod3"
                       name="paymentMethod"
                       value="Cartão de débito"
+                      onChange={updateInput}
                   />
                   <label for="paymentMethod3">Cartão de débito</label>
               </div>
@@ -87,14 +122,16 @@ console.log(cart)
                       id="paymentMethod4"
                       name="paymentMethod"
                       value="Boleto"
+                      onChange={updateInput}
                   />
                   <label for="paymentMethod4">Boleto</label>
               </div>
-          </PaymentBox>
+            </PaymentBox>
 
-          <Button disabled={sending} onClick={() => confirmPurchase()}>
+            <Button disabled={sending} type="submit">
               {sending ? <Loading /> : "Finalizar a compra"}
-          </Button>
+            </Button>
+          </form>
 
           <Link to="/">
               <h3>Quer procurar mais alguns produtos?</h3>
@@ -120,12 +157,14 @@ const Main = styled.div`
     font-size: 32px;
     color: #ffffff;
     margin-bottom: 24px;
+    text-align: left;
 }
 h2 {
     font-weight: 700;
     font-size: 24px;
     color: #ffffff;
     margin-bottom: 5px;
+    text-align: left;
 }
   h3 {
     font-weight: 700;
@@ -145,6 +184,9 @@ h2 {
   span {
     color: #FFCB05;
   }
+  form {
+    width: 100%;
+  }
 `;
 
 const ProductsBox = styled.div`
@@ -154,11 +196,24 @@ const ProductsBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
-  border-radius: 5px;
-  margin-bottom: 15px;
+  border-radius: 5px 5px 0 0;
 `;
 
-const PaymentBox = styled.form`
+const TotalBox = styled.div`
+  background-color: #FFCB05;
+  width: 100%;
+  height: 80px;
+  padding: 15px;
+  font-size: 24px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  border-radius: 0 0 5px 5px;
+  margin-bottom: 25px;
+`;
+
+const PaymentBox = styled.div`
   background-color: #EDEDED;
   width: 100%;
   padding: 15px;
@@ -190,7 +245,7 @@ const Button = styled.button`
   border-radius: 5px;
   font-weight: 700;
   font-size: 24px;
-  color: #00509D;
+  color: #000000;
   padding: 10px;
   display: flex;
   align-items: center;

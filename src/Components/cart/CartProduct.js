@@ -2,31 +2,33 @@ import React from "react";
 import { useState, useContext } from "react";
 import styled from "styled-components";
 import { GrFormTrash, GrFormAdd, GrFormSubtract } from 'react-icons/gr';
-import { changeProductQuantity, deleteProduct } from "../../services/pokemart";
+import { updateCart } from "../../services/pokemart";
 import CartContext from "../../contexts/CartContext";
 
 export default function CartProduct({ product, quantity }) {
     const [localData] = useState(JSON.parse(localStorage.getItem('pokemart')))
-    const { setCart } = useContext(CartContext);
+    const { cart, setCart } = useContext(CartContext);
 
-    function changeQuantity(boolean) {
-        const operation = {
-            id: product.id,
-            add: boolean
+    function updateProducts(operation) {
+        let products = cart.products;
+
+        if (operation === 'delete') {
+            products = products.filter(data => product.name !== data.name);
+        } else if (operation === 'add') {
+            products.push(product);
+        } else if (operation === 'subtract') {
+            products.splice(products.indexOf(product), 1);
         }
-        if (localData?.token) {
-            changeProductQuantity(operation)
-                .then(res => setCart(res.data))
-                .catch(erro => console.log(erro))
-        } else {
-            console.log('localstorage')
-        }
+
+        return products;
     }
 
-    function removeProduct() {
+    function changeQuantity(operation) {
+        const products = updateProducts(operation)
+
         if (localData?.token) {
-            deleteProduct(product.id)
-                .then(res => setCart(res.data))
+            updateCart(products)
+                .then(res => setCart(res.data.products))
                 .catch(erro => console.log(erro))
         } else {
             console.log('localstorage')
@@ -42,12 +44,13 @@ export default function CartProduct({ product, quantity }) {
                 </ProductBox>
                 <ControllersBox>
                     <div>
-                        <GrFormTrash onClick={removeProduct}/>
+                        <GrFormTrash onClick={() => changeQuantity('delete')}/>
                     </div>
+                    <p>{product.price*quantity}</p>
                     <div>
-                        <GrFormAdd onClick={() => changeQuantity(true)}/>
+                        <GrFormAdd onClick={() => changeQuantity('add')}/>
                         <p>{quantity}</p>
-                        <GrFormSubtract onClick={() => changeQuantity(false)}/>
+                        <GrFormSubtract onClick={() => changeQuantity('subtract')}/>
                     </div>
                 </ControllersBox>
             </Container>
