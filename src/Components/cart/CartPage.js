@@ -17,7 +17,7 @@ function CartPage() {
           .then(res => setCart(res.data))
           .catch(erro => console.log(erro))
     } else {
-        setCart(localData?.cart);
+        setCart(localData?.products);
     }
   }, [setCart, localData]);
 

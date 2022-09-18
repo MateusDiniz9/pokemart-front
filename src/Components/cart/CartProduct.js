@@ -31,7 +31,11 @@ export default function CartProduct({ product, quantity }) {
                 .then(res => setCart(res.data))
                 .catch(erro => console.log(erro))
         } else {
-            console.log('localstorage')
+            const data = {
+                ...localData,
+                products
+            }
+            localStorage.setItem('pokemart', data)
         }
     }
 
