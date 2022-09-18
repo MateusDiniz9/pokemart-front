@@ -5,11 +5,16 @@ import LogInPage from "./LogInPage";
 import SignUp from "./SignUp";
 import CartPage from "./cart/CartPage";
 import CheckoutPage from "./checkout/CheckoutPage";
+import CartContext from "../contexts/CartContext";
+import { useState } from "react";
 
 export default function App() {
+  const [cart, setCart] = useState(null);
+
   return (
     <>
       <GlobalStyle />
+      <CartContext.Provider value={{cart, setCart}}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -19,6 +24,7 @@ export default function App() {
           <Route path="/checkout/:saleId" element={<CheckoutPage />} />
         </Routes>
       </BrowserRouter>
+      </CartContext.Provider>
     </>
   );
 }
