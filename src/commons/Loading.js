@@ -1,15 +1,15 @@
-import { RevolvingDot } from "react-loader-spinner";
+import { Triangle } from "react-loader-spinner";
 import React from "react";
 
 export default function Loading() {
   return (
-    <RevolvingDot
-      height="100"
-      width="100"
-      radius="6"
-      color="#4fa94d"
-      secondaryColor=""
-      ariaLabel="revolving-dot-loading"
+    <Triangle
+      height="40"
+      width="40"
+      color="#11296B"
+      ariaLabel="triangle-loading"
+      wrapperStyle={{}}
+      wrapperClassName=""
       visible={true}
     />
   );
