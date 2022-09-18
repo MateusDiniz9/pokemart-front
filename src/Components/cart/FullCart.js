@@ -36,14 +36,13 @@ export default function FullCart() {
     }, [cart]);
 
     function updateInput(e) {
-        setPurchase({ ...purchase, [e.target.name]: e.target.value });
+        setPurchase({ products: cart?.products, [e.target.name]: e.target.value });
       }
     
       function confirmPurchase(e) {
         e.preventDefault();
         if (window.confirm('Você deseja confirmar essa compra?')) {
           setSending(true);
-          setPurchase({ ...purchase, products: cart?.products });
           postPurchase(purchase)
             .then(res => navigate(`/checkout/${res.data}`))
             .catch(erro => {
