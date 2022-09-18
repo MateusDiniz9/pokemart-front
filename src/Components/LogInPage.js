@@ -73,8 +73,7 @@ function LogInPage() {
           placeholder="Senha"
         />
         <Button type="submit" disabled={sending}>
-          {" "}
-          {sending ? <Loading /> : "Entrar"}{" "}
+          {sending ? <Loading /> : "Entrar"}
         </Button>
       </Box>
       <Link to="/cadastro">
