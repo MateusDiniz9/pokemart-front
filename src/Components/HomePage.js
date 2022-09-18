@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Header from "../commons/Header";
 import { useState, useEffect } from "react";
 import { getProducts } from "../services/pokemart";
+import Loading from '../commons/Loading';
 
 export default function HomePage() {
   const [products, setProducts] = useState([]);
@@ -17,7 +18,7 @@ export default function HomePage() {
       <Header />
       <Products>
         {products.length === 0
-          ? ""
+          ? <Loading />
           : products.map((product, index) => (
               <Pokemon key={index}>
                 <img src={product.img} alt="img_poke" />

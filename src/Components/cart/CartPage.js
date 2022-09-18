@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useState, useEffect, useContext } from "react";
 import { getCart } from "../../services/pokemart";
-//import header
+import Header from '../../commons/Header';
 import CartContext from "../../contexts/CartContext";
 import EmptyCart from "./EmptyCart";
 import FullCart from "./FullCart";
@@ -23,7 +23,7 @@ function CartPage() {
 
   return (
     <>
-        {/* <Header /> */}
+        <Header />
         <Main>
           <h1>{localData?.token ? `${<span>{localData.username}</span>},` : 'Visitante,' } esse é seu carrinho:</h1>
           
