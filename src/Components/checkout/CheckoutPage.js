@@ -27,9 +27,11 @@ function CheckoutPage() {
         <Main>
           <h1>Parabéns pela sua compra!</h1>
           <h2>{`O método de pagamento utilizado foi ${checkout.paymentMethod}`}</h2>
+    
             <Box>
                 {checkout && checkout.length !== 0 ? checkout.products.map((product, index) => <CheckoutProduct key={index} product={product[0]}/>) : <Loading />}
             </Box>
+
             <Link to="/">
             <h3>Quer voltar e dar uma olhadinha em outros produtos?</h3>
             </Link>
@@ -73,16 +75,11 @@ const Main = styled.div`
 `;
 
 const Box = styled.div`
-  background-color:red;
-  min-height: 300px;
-  width: 90%;
+  background-color: #EDEDED;
+  width: 100%;
   padding: 15px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-
-  div {
-    background-color: green;
-    padding: 5px;
-  }
+  gap: 15px;
+  border-radius: 5px;
 `;
