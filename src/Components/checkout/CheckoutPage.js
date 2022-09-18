@@ -9,7 +9,8 @@ import CheckoutProduct from "./CheckoutProduct";
 
 function CheckoutPage() {
   const { saleId } = useParams();
-  const [checkout, setCheckout] = useState([]);
+  const [ checkout, setCheckout ] = useState([]);
+  const [ uniqueCheckoutProducts, setUniqueCheckoutProducts ] = useState([]);
 
   useEffect(() => {
     getCheckout(saleId)
@@ -17,9 +18,17 @@ function CheckoutPage() {
         .catch(erro => console.log(erro))
   }, [saleId]);
 
-  if(checkout && checkout.length !== 0) {
-    console.log(checkout)
-  }
+  useEffect(() => {
+    const uniqueProducts = [];
+    const uniqueIds = [];
+    checkout?.products.forEach(element => {
+      if (!uniqueIds.includes(element.id)) {
+        uniqueIds.push(element.id);
+        uniqueProducts.push(element);
+      }
+    })
+    setUniqueCheckoutProducts(uniqueProducts);
+  }, [checkout]);
 
   return (
     <>
@@ -29,7 +38,7 @@ function CheckoutPage() {
           <h2>{`O método de pagamento utilizado foi ${checkout.paymentMethod}`}</h2>
     
             <Box>
-                {checkout && checkout.length !== 0 ? checkout.products.map((product, index) => <CheckoutProduct key={index} product={product[0]}/>) : <Loading />}
+              {checkout && uniqueCheckoutProducts.length !== 0 ? uniqueCheckoutProducts.map((product, index) => <CheckoutProduct key={index} product={product} quantity={checkout.products.filter(element => product.name === element.name).length}/>) : <Loading />}
             </Box>
 
             <Link to="/">
@@ -43,7 +52,7 @@ function CheckoutPage() {
 export default CheckoutPage;
 
 const Main = styled.div`
-  background-color: purple;
+  background-color: #11296B;
   min-height: 100vh;
   margin: auto;
   padding: 5%;
@@ -52,14 +61,20 @@ const Main = styled.div`
   align-items: center;
   justify-content: center;
   h1 {
+    font-weight: 700;
+    font-size: 32px;
+    color: #ffffff;
+    margin-bottom: 48px;
+  }
+  h2 {
     font-weight: 400;
     font-size: 32px;
     color: #ffffff;
     margin-bottom: 24px;
   }
   h3 {
-    font-weight: 700;
-    font-size: 15px;
+    font-weight: 400;
+    font-size: 16px;
     color: #ffffff;
     margin-top: 36px;
     text-align: center;
