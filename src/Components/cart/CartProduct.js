@@ -28,7 +28,7 @@ export default function CartProduct({ product, quantity }) {
 
         if (localData?.token) {
             updateCart(products)
-                .then(res => setCart(res.data.products))
+                .then(res => setCart(res.data))
                 .catch(erro => console.log(erro))
         } else {
             console.log('localstorage')

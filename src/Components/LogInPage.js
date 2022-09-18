@@ -51,8 +51,8 @@ function LogInPage() {
   }
   return (
     <Main>
-      <img src="../../public/icon.png" alt="pokemart logo" />
-      <h1>All you and your little friend needs</h1>
+      <h1>Pokemart</h1>
+      <h2>Tudo que você e seu companheiro precisam!</h2>
       <Box onSubmit={logIn}>
         <Input
           disabled={sending}
@@ -84,7 +84,7 @@ function LogInPage() {
 }
 export default LogInPage;
 const Main = styled.div`
-  background-color: purple;
+  background-color: #11296B;
   min-height: 100vh;
   margin: auto;
   padding: 5%;
@@ -93,8 +93,13 @@ const Main = styled.div`
   align-items: center;
   justify-content: center;
   h1 {
+    font-size: 84px;
+    font-family: 'Luckiest Guy', sans-serif;
+    color: #FFCB05;
+  }
+  h2 {
     font-weight: 400;
-    font-size: 32px;
+    font-size: 24px;
     color: #ffffff;
     margin-bottom: 24px;
   }
@@ -140,7 +145,7 @@ const Input = styled.input`
   }
 `;
 const Button = styled.button`
-  background-color: #a328d6;
+  background-color: #FFCB05;
   width: 100%;
   height: 46px;
   border: none;
