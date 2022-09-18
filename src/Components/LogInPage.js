@@ -76,7 +76,7 @@ function LogInPage() {
           {sending ? <Loading /> : "Entrar"}
         </Button>
       </Box>
-      <Link to="/sign-up">
+      <Link to="/cadastro">
         <h3>Primeira vez? Cadastre-se conosco!</h3>
       </Link>
     </Main>
