@@ -12,8 +12,8 @@ export default function CheckoutProduct({ product, quantity }) {
                 <p>{product.name.charAt(0).toUpperCase()+product.name.slice(1)}</p>
             </ProductBox>
             <ControllersBox>
-                <p>R$ {product.price/currencyTransform}/un</p>
-                <p>Total R$ {product.price*quantity/currencyTransform}</p>
+                <p>R$ {product.price/currencyTransform.toFixed(2)}/un</p>
+                <p>Total R$ {product.price*quantity/currencyTransform.toFixed(2)}</p>
             </ControllersBox>
         </Container>
     )
