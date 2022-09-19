@@ -57,6 +57,7 @@ export default function HomePage() {
     const userSerial = localStorage.getItem("pokemart");
     const userLocal = JSON.parse(userSerial);
     if (cartLocal !== null) {
+      console.log(cartLocal);
       setCartFront(cartLocal.products);
     }
     if (userLocal === null) {

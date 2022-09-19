@@ -121,7 +121,6 @@ const Main = styled.div`
     font-size: 24px;
     color: #ffffff;
     margin-bottom: 24px;
-    text-align: center;
   }
   h3 {
     font-weight: 700;
