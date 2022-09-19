@@ -33,11 +33,9 @@ export default function HomePage() {
 
   function sendToCart(product) {
     if (logged) {
-      setCartFront([...cartFront, product]);
       const products = [...cartFront, product];
       updateCart(products).then();
     } else {
-      setCartFront([...cartFront, product]);
       const products = [...cartFront, product];
       localStorage.setItem(
         "cartFront",

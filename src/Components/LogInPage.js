@@ -44,6 +44,7 @@ function LogInPage() {
             userId: resposta.data.userId,
             token: resposta.data.token,
             username: resposta.data.username,
+            shoppingCart: resposta.data.shoppingCart,
           })
         );
         navigate("/");
@@ -51,7 +52,7 @@ function LogInPage() {
           if (res.data.products && res.data.products.length !== 0) {
             let products = [];
             if (cartLocal) {
-              let products = [...cartLocal];
+              products = [...cartLocal];
             }
             res.data.products.map((product) => products.push(product));
             updateCart(products).then((res) => setCartFront(res.data.products));
