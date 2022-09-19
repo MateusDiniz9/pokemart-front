@@ -3,15 +3,17 @@ import Header from "../commons/Header";
 import { useState, useEffect, useContext } from "react";
 import { getProducts } from "../services/pokemart";
 import types from "../enums/types";
+import Loading from "../commons/Loading";
+import "../contexts/UserContext";
 import UserContext from "../contexts/UserContext";
 
 export default function HomePage() {
   const [products, setProducts] = useState([]);
   const [logged, setLogged] = useState(Boolean);
   const [user, setUser] = useState({});
-  const { cart, setCart } = useContext(UserContext);
 
-  console.log(cart);
+  const { cartFront, setCartFront } = useContext(UserContext);
+
   function findType(pokemon) {
     let color1;
     let color2;
@@ -30,15 +32,15 @@ export default function HomePage() {
 
   function sendToCart(product) {
     if (logged) {
-      //busca o cart desse usuario da api e salva em cart
-      //se n existir o cart dele na api mantem esses produtos que ele colocou buscando do localstorage
+      //busca o cartFront desse usuario da api e salva em cartFront
+      //se n existir o cartFront dele na api mantem esses produtos que ele colocou buscando do localstorage
     } else {
-      console.log("aqui", cart);
-      setCart([...cart, product]);
+      setCartFront([...cartFront, product]);
+      console.log("aqui", cartFront);
       localStorage.setItem(
-        "cart",
+        "cartFront",
         JSON.stringify({
-          cart,
+          cartFront,
         })
       );
     }
@@ -52,9 +54,12 @@ export default function HomePage() {
       }));
       setProducts(newpokes);
     });
-    const cartSerial = localStorage.getItem("cart");
+    const cartSerial = localStorage.getItem("cartFront");
     const cartLocal = JSON.parse(cartSerial);
-    setCart([cartLocal]);
+    console.log("eu", cartLocal);
+    if (cartLocal !== null) {
+      setCartFront([cartLocal]);
+    }
     const userSerial = localStorage.getItem("pokemart");
     const userLocal = JSON.parse(userSerial);
     if (userLocal === null) {
@@ -63,44 +68,46 @@ export default function HomePage() {
       setLogged(true);
       setUser(userLocal);
     }
-  }, []);
+  }, [setCartFront]);
 
   return (
     <Wraper>
       <Header />
       <Products>
-        {products.length === 0
-          ? ""
-          : products.map((product, index) => (
-              <Pokemon
-                key={index}
-                color={
-                  product.color.color2
-                    ? product.color.color2
-                    : product.color.color1
-                }
-                colorBotao={product.color.color1}
-              >
-                <Back src={product.color.background}></Back>
-                <Poke src={product.img} alt="img_poke" />
-                <h2>
-                  {product.name[0].toUpperCase() + product.name.substring(1)}
-                </h2>
-                <h3>
-                  {product.type[0][0].toUpperCase() +
-                    product.type[0].substring(1)}{" "}
-                  {product.type[1]
-                    ? product.type[1][0].toUpperCase() +
-                      product.type[1].substring(1)
-                    : ""}
-                </h3>
-                <h4>R$ {(product.price / 100).toFixed(2)}</h4>
-                <h5>À vista no PIX</h5>
-                <button onClick={() => sendToCart(product)}>
-                  <ion-icon name="cart"></ion-icon>Comprar
-                </button>
-              </Pokemon>
-            ))}
+        {products.length === 0 ? (
+          <Loading />
+        ) : (
+          products.map((product, index) => (
+            <Pokemon
+              key={index}
+              color={
+                product.color.color2
+                  ? product.color.color2
+                  : product.color.color1
+              }
+              colorBotao={product.color.color1}
+            >
+              <Back src={product.color.background}></Back>
+              <Poke src={product.img} alt="img_poke" />
+              <h2>
+                {product.name[0].toUpperCase() + product.name.substring(1)}
+              </h2>
+              <h3>
+                {product.type[0][0].toUpperCase() +
+                  product.type[0].substring(1)}{" "}
+                {product.type[1]
+                  ? product.type[1][0].toUpperCase() +
+                    product.type[1].substring(1)
+                  : ""}
+              </h3>
+              <h4>R$ {(product.price / 100).toFixed(2)}</h4>
+              <h5>À vista no PIX</h5>
+              <button onClick={() => sendToCart(product)}>
+                <ion-icon name="cart"></ion-icon>Comprar
+              </button>
+            </Pokemon>
+          ))
+        )}
       </Products>
     </Wraper>
   );

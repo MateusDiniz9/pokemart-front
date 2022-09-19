@@ -6,7 +6,7 @@ import UserContext from "../contexts/UserContext";
 export default function Header() {
   const [logged, setLogged] = useState(Boolean);
   const [name, setName] = useState("");
-  const { cart } = useContext(UserContext);
+  const { cartFront } = useContext(UserContext);
 
   useEffect(() => {
     const userSerial = localStorage.getItem("pokemart");
@@ -18,18 +18,21 @@ export default function Header() {
       setLogged(true);
       setName(user.username);
     }
-  }, []);
+  }, [cartFront]);
 
   function logOut() {
     setLogged(false);
     localStorage.removeItem("pokemart");
+    localStorage.removeItem("cartFront");
   }
 
   return (
     <Wraper>
       <Cart>
         <ion-icon name="cart-outline"></ion-icon>
-        <CartItens>{cart.length > 0 ? cart.length : "0"}</CartItens>
+        <CartItens>
+          {cartFront && cartFront.length > 0 ? cartFront.length : "0"}
+        </CartItens>
       </Cart>
       <h1>
         <Link to="/">PokeMart</Link>
