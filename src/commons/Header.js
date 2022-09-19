@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import UserContext from "../contexts/UserContext";
+import { updateCart } from "../services/pokemart";
 
 export default function Header({ display }) {
   const [logged, setLogged] = useState(Boolean);
@@ -20,13 +21,13 @@ export default function Header({ display }) {
       setLogged(true);
       setName(user.username);
     }
-  }, [cartFront]);
+  }, [cartFront, display]);
 
   function logOut() {
     setLogged(false);
     localStorage.removeItem("pokemart");
     localStorage.removeItem("cartFront");
-    navigate("/");
+    navigate("/login");
   }
 
   return (
