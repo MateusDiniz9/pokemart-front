@@ -1,10 +1,17 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
-export default function Header() {
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import UserContext from "../contexts/UserContext";
+
+export default function Header({ display }) {
   const [logged, setLogged] = useState(Boolean);
   const [name, setName] = useState("");
+  const { cartFront } = useContext(UserContext);
+  const navigate = useNavigate();
   useEffect(() => {
+    if (display === undefined) {
+      display = true;
+    }
     const userSerial = localStorage.getItem("pokemart");
     const user = JSON.parse(userSerial);
     if (user === null) {
@@ -13,15 +20,27 @@ export default function Header() {
       setLogged(true);
       setName(user.username);
     }
-  }, []);
+  }, [cartFront]);
 
   function logOut() {
     setLogged(false);
     localStorage.removeItem("pokemart");
+    localStorage.removeItem("cartFront");
+    navigate("/");
   }
 
   return (
     <Wraper>
+      {display === "true" && (
+        <Cart display={display}>
+          <Link to="/cart">
+            <ion-icon name="cart-outline"></ion-icon>
+          </Link>
+          <CartItens>
+            {cartFront && cartFront.length > 0 ? cartFront.length : "0"}
+          </CartItens>
+        </Cart>
+      )}
       <h1>
         <Link to="/">PokeMart</Link>
       </h1>
@@ -61,7 +80,7 @@ const Wraper = styled.div`
   justify-content: space-between;
   padding: 0px 10px;
   font-size: 35px;
-  z-index: 5;
+  z-index: 10;
   p {
     font-size: 13px;
   }
@@ -91,4 +110,25 @@ const Perfil = styled.div`
   div {
     margin-top: 3px;
   }
+`;
+const Cart = styled.div`
+  position: relative;
+  font-size: 50px;
+  color: white;
+`;
+const CartItens = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  font-size: 25px;
+  color: white;
+  bottom: 0px;
+  right: 5px;
+  border: 1px solid #ffcb05;
+  background-color: #ffcb05;
+  border-radius: 50%;
+  z-index: 10;
 `;

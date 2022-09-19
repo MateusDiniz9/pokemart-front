@@ -2,35 +2,41 @@ import React from "react";
 import styled from "styled-components";
 import { useState, useEffect, useContext } from "react";
 import { getCart } from "../../services/pokemart";
-import Header from '../../commons/Header';
+import Header from "../../commons/Header";
 import CartContext from "../../contexts/CartContext";
 import EmptyCart from "./EmptyCart";
 import FullCart from "./FullCart";
 
 function CartPage() {
-    const { cart, setCart } = useContext(CartContext);
-    const [localData] = useState(JSON.parse(localStorage.getItem('pokemart')));
+  const { cart, setCart } = useContext(CartContext);
+  const [localData] = useState(JSON.parse(localStorage.getItem("pokemart")));
+  const [productsData] = useState(
+    JSON.parse(localStorage.getItem("cartFront"))
+  );
 
   useEffect(() => {
     if (localData?.token) {
-        getCart()
-          .then(res => setCart(res.data))
-          .catch(erro => console.log(erro))
+      getCart()
+        .then((res) => setCart(res.data))
+        .catch((erro) => console.log(erro));
     } else {
-        setCart(localData?.products);
+      setCart(productsData);
     }
   }, [setCart, localData]);
 
   return (
     <>
-        <Header />
-        <Main>
-          <h1>{localData?.token ? `${<span>{localData.username}</span>},` : 'Visitante,' } esse é seu carrinho:</h1>
-          
-          {cart && cart.length !== 0 ? <FullCart/> : <EmptyCart/>}
+      <Header $display={"false"} />
+      <Main>
+        <h1>
+          {localData?.token
+            ? `${(<span>{localData.username}</span>)},`
+            : "Visitante,"}{" "}
+          esse é seu carrinho:
+        </h1>
 
-          
-        </Main>
+        {cart && cart.length !== 0 ? <FullCart /> : <EmptyCart />}
+      </Main>
     </>
   );
 }
@@ -38,10 +44,10 @@ function CartPage() {
 export default CartPage;
 
 const Main = styled.div`
-  background-color: #11296B;
+  background-color: #11296b;
   min-height: 100vh;
   margin: auto;
-  padding: 5%;
+  padding: 3%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -51,12 +57,12 @@ const Main = styled.div`
     font-size: 32px;
     color: #ffffff;
     margin-bottom: 24px;
-}
+  }
   h2 {
-      font-weight: 700;
-      font-size: 24px;
-      color: #ffffff;
-      margin-bottom: 5px;
+    font-weight: 700;
+    font-size: 24px;
+    color: #ffffff;
+    margin-bottom: 5px;
   }
   h3 {
     font-weight: 400;
@@ -74,7 +80,7 @@ const Main = styled.div`
     }
   }
   span {
-    color: #FFCB05;
+    color: #ffcb05;
   }
   form {
     width: 100%;
