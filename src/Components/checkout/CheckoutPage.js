@@ -4,7 +4,6 @@ import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Loading from "../../commons/Loading";
 import { getCheckout } from "../../services/pokemart";
-import Header from '../../commons/Header';
 import CheckoutProduct from "./CheckoutProduct";
 
 function CheckoutPage() {
@@ -40,7 +39,6 @@ function CheckoutPage() {
 
   return (
     <>
-        <Header />
         <Main>
           <h1><span>username</span>, parabéns pela sua compra!</h1>
           <h2>{`O método de pagamento utilizado foi `} <span>{checkout.paymentMethod}</span></h2>
