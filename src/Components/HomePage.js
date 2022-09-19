@@ -35,7 +35,7 @@ export default function HomePage() {
     if (logged) {
       setCartFront([...cartFront, product]);
       const products = [...cartFront, product];
-      updateCart(products).then((res) => console.log(res.data));
+      updateCart(products).then();
     } else {
       setCartFront([...cartFront, product]);
       const products = [...cartFront, product];

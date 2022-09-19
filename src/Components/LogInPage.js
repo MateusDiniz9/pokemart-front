@@ -49,9 +49,9 @@ function LogInPage() {
         navigate("/");
         getCart().then((res) => {
           if (res.data.products && res.data.products.length !== 0) {
-            const products = [];
+            let products = [];
             if (cartLocal) {
-              products = [...cartLocal];
+              let products = [...cartLocal];
             }
             res.data.products.map((product) => products.push(product));
             updateCart(products).then((res) => setCartFront(res.data.products));
@@ -111,10 +111,9 @@ const Main = styled.div`
   h1 {
     font-size: 84px;
 
-    font-family: 'Luckiest Guy', sans-serif;
-    color: #FFCB05;
+    font-family: "Luckiest Guy", sans-serif;
+    color: #ffcb05;
     text-align: center;
-
   }
   h2 {
     font-weight: 400;
