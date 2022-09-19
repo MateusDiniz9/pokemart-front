@@ -45,7 +45,7 @@ function CheckoutPage() {
           <h1><span>{username}</span>, parabéns pela sua compra!</h1>
           <h2>{`O método de pagamento utilizado foi `} <span>{checkout.paymentMethod}</span></h2>
             <TotalBox>
-                <p>Total da sua compra: R$ {balance/currencyTransform}</p>
+                <p>Total da sua compra: R$ {balance/currencyTransform.toFixed(2)}</p>
             </TotalBox>
             <Box>
               {checkout && uniqueCheckoutProducts.length !== 0 ? uniqueCheckoutProducts.map((product, index) => <CheckoutProduct key={index} product={product} quantity={checkout.products.filter(element => product.name === element.name).length}/>) : <Loading />}

@@ -56,7 +56,6 @@ export default function HomePage() {
       setProducts(newpokes);
     });
     if (cartLocal !== null) {
-      console.log(cartLocal);
       setCartFront(cartLocal.products);
     }
     const userSerial = localStorage.getItem("pokemart");

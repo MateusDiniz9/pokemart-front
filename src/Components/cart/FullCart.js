@@ -16,11 +16,12 @@ export default function FullCart() {
     paymentMethod: "",
     products: [],
   });
+  const [localData] = useState(JSON.parse(localStorage.getItem("pokemart")));
 
   useEffect(() => {
     const uniqueProducts = [];
     const uniqueIds = [];
-    cart?.products.forEach((element) => {
+    cart?.products?.forEach((element) => {
       if (!uniqueIds.includes(element.id)) {
         uniqueIds.push(element.id);
         uniqueProducts.push(element);
@@ -41,7 +42,10 @@ export default function FullCart() {
 
   function confirmPurchase(e) {
     e.preventDefault();
-    if (window.confirm("Você deseja confirmar essa compra?")) {
+    if (!localData) {
+      alert('Por favor, faça login primeiro!');
+      navigate('/login');
+    } else if (window.confirm("Você deseja confirmar essa compra?")) {
       setSending(true);
       postPurchase(purchase)
         .then((res) => navigate(`/checkout/${res.data}`))
@@ -79,6 +83,7 @@ export default function FullCart() {
           <div>
             <Input
               disabled={sending}
+              required
               type="radio"
               id="paymentMethod1"
               name="paymentMethod"
@@ -90,6 +95,7 @@ export default function FullCart() {
           <div>
             <Input
               disabled={sending}
+              required
               type="radio"
               id="paymentMethod2"
               name="paymentMethod"
@@ -102,6 +108,7 @@ export default function FullCart() {
           <div>
             <Input
               disabled={sending}
+              required
               type="radio"
               id="paymentMethod3"
               name="paymentMethod"
@@ -114,6 +121,7 @@ export default function FullCart() {
           <div>
             <Input
               disabled={sending}
+              required
               type="radio"
               id="paymentMethod4"
               name="paymentMethod"
