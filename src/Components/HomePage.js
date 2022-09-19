@@ -6,18 +6,19 @@ import types from "../enums/types";
 import Loading from "../commons/Loading";
 import "../contexts/UserContext";
 import UserContext from "../contexts/UserContext";
+import { getCart, updateCart } from "../services/pokemart";
 
 export default function HomePage() {
   const [products, setProducts] = useState([]);
   const [logged, setLogged] = useState(Boolean);
-  const [user, setUser] = useState({});
-
   const { cartFront, setCartFront } = useContext(UserContext);
+  const [cartLocal] = useState(JSON.parse(localStorage.getItem("cartFront")));
 
   function findType(pokemon) {
     let color1;
     let color2;
     let background;
+
     for (let i = 0; i < types.length; i++) {
       if (types[i].type === pokemon.type[0]) {
         color1 = types[i].color;
@@ -32,15 +33,15 @@ export default function HomePage() {
 
   function sendToCart(product) {
     if (logged) {
-      //busca o cartFront desse usuario da api e salva em cartFront
-      //se n existir o cartFront dele na api mantem esses produtos que ele colocou buscando do localstorage
+      setCartFront([...cartFront, product]);
+      updateCart(cartFront).then((res) => console.log(res.data));
     } else {
       setCartFront([...cartFront, product]);
-      console.log("aqui", cartFront);
+      const products = [...cartFront, product];
       localStorage.setItem(
         "cartFront",
         JSON.stringify({
-          cartFront,
+          products,
         })
       );
     }
@@ -54,11 +55,9 @@ export default function HomePage() {
       }));
       setProducts(newpokes);
     });
-    const cartSerial = localStorage.getItem("cartFront");
-    const cartLocal = JSON.parse(cartSerial);
-    console.log("eu", cartLocal);
     if (cartLocal !== null) {
-      setCartFront([cartLocal]);
+      console.log(cartLocal);
+      setCartFront(cartLocal.products);
     }
     const userSerial = localStorage.getItem("pokemart");
     const userLocal = JSON.parse(userSerial);
@@ -66,13 +65,17 @@ export default function HomePage() {
       setLogged(false);
     } else {
       setLogged(true);
-      setUser(userLocal);
+      getCart().then((res) => {
+        if (res.data.products && res.data.products.length !== 0) {
+          setCartFront(res.data.products);
+        }
+      });
     }
-  }, [setCartFront]);
+  }, [setCartFront, cartLocal]);
 
   return (
     <Wraper>
-      <Header />
+      <Header display={"true"} />
       <Products>
         {products.length === 0 ? (
           <Loading />
