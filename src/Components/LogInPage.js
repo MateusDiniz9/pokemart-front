@@ -1,11 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { postLogin } from "../services/pokemart";
 import Loading from "../commons/Loading";
-import { getCart, updateCart } from "../services/pokemart";
-import UserContext from "../contexts/UserContext";
 
 function LogInPage() {
   const navigate = useNavigate();
@@ -14,10 +12,6 @@ function LogInPage() {
     email: "",
     password: "",
   });
-
-  const { cartFront, setCartFront } = useContext(UserContext);
-  const [cartLocal] = useState(JSON.parse(localStorage.getItem("cartFront")));
-
   useEffect(() => {
     if (localStorage.getItem("pokemart") !== null) {
       navigate("/");
@@ -47,17 +41,6 @@ function LogInPage() {
           })
         );
         navigate("/");
-        getCart().then((res) => {
-          if (res.data.products && res.data.products.length !== 0) {
-            let products = [];
-            if (cartLocal) {
-              let products = [...cartLocal];
-            }
-            res.data.products.map((product) => products.push(product));
-            updateCart(products).then((res) => setCartFront(res.data.products));
-            localStorage.removeItem("cartFront");
-          }
-        });
       })
       .catch((erro) => {
         alert("Não foi possível logar, tente novamente");
@@ -100,7 +83,7 @@ function LogInPage() {
 }
 export default LogInPage;
 const Main = styled.div`
-  background-color: #11296b;
+  background-color: #11296B;
   min-height: 100vh;
   margin: auto;
   padding: 5%;
@@ -110,9 +93,8 @@ const Main = styled.div`
   justify-content: center;
   h1 {
     font-size: 84px;
-
-    font-family: "Luckiest Guy", sans-serif;
-    color: #ffcb05;
+    font-family: 'Luckiest Guy', sans-serif;
+    color: #FFCB05;
     text-align: center;
   }
   h2 {
@@ -164,7 +146,7 @@ const Input = styled.input`
   }
 `;
 const Button = styled.button`
-  background-color: #ffcb05;
+  background-color: #FFCB05;
   width: 100%;
   height: 46px;
   border: none;

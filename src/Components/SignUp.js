@@ -5,6 +5,7 @@ import icon from "../assets/greatball.png";
 import { signUp } from "../services/pokemart";
 
 export default function SignUp() {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,6 +26,7 @@ export default function SignUp() {
           setPassword("");
           setPasswordConfirme("");
         })
+        navigate('/')
         .catch((error) => {
           return alert(error.message);
         });
@@ -75,7 +77,7 @@ export default function SignUp() {
 }
 
 const Wraper = styled.div`
-  background-color: #11296b;
+  background-color: #11296B;
   min-height: 100vh;
   margin: auto;
   padding: 5%;

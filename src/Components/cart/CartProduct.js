@@ -7,9 +7,6 @@ import CartContext from "../../contexts/CartContext";
 
 export default function CartProduct({ product, quantity }) {
   const [localData] = useState(JSON.parse(localStorage.getItem("pokemart")));
-  const [productsData] = useState(
-    JSON.parse(localStorage.getItem("cartFront"))
-  );
   const { cart, setCart } = useContext(CartContext);
 
   function updateProducts(operation) {
