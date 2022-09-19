@@ -44,7 +44,6 @@ function LogInPage() {
             userId: resposta.data.userId,
             token: resposta.data.token,
             username: resposta.data.username,
-            shoppingCart: resposta.data.shoppingCart,
           })
         );
         navigate("/");
@@ -111,14 +110,18 @@ const Main = styled.div`
   justify-content: center;
   h1 {
     font-size: 84px;
-    font-family: "Luckiest Guy", sans-serif;
-    color: #ffcb05;
+
+    font-family: 'Luckiest Guy', sans-serif;
+    color: #FFCB05;
+    text-align: center;
+
   }
   h2 {
     font-weight: 400;
     font-size: 24px;
     color: #ffffff;
     margin-bottom: 24px;
+    text-align: center;
   }
   h3 {
     font-weight: 700;

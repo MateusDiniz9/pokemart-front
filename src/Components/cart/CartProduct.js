@@ -13,32 +13,36 @@ export default function CartProduct({ product, quantity }) {
   const { cart, setCart } = useContext(CartContext);
 
   function updateProducts(operation) {
-    let products = cart.products;
+    let products = [];
+
+    if (localData?.token) {
+      products = cart.products;
+    } else {
+      products = JSON.parse(localStorage.getItem("cartFront")).products;
+    }
 
     if (operation === "delete") {
       products = products.filter((data) => product.name !== data.name);
     } else if (operation === "add") {
       products.push(product);
     } else if (operation === "subtract") {
-      products.splice(products.indexOf(product), 1);
+      products.splice(products.indexOf(products.find((element) => element.id === product.id)), 1);
     }
-
+    
     return products;
   }
 
   function changeQuantity(operation) {
     const products = updateProducts(operation);
+    console.log(products)
 
     if (localData?.token) {
       updateCart(products)
         .then((res) => setCart(res.data))
         .catch((erro) => console.log(erro));
     } else {
-      const data = {
-        ...productsData,
-        products,
-      };
-      localStorage.setItem("cartFront", data);
+      localStorage.setItem("cartFront", JSON.stringify({products}));
+      document.location.reload();
     }
   }
 
