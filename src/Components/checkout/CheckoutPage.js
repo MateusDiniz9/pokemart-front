@@ -12,6 +12,8 @@ function CheckoutPage() {
   const [ checkout, setCheckout ] = useState([]);
   const [ balance, setBalance ] = useState(0);
   const [ uniqueCheckoutProducts, setUniqueCheckoutProducts ] = useState([]);
+  const [username] = useState(JSON.parse(localStorage.getItem("pokemart")).username);
+
 
   useEffect(() => {
     getCheckout(saleId)
@@ -40,7 +42,7 @@ function CheckoutPage() {
   return (
     <>
         <Main>
-          <h1><span>username</span>, parabéns pela sua compra!</h1>
+          <h1><span>{username}</span>, parabéns pela sua compra!</h1>
           <h2>{`O método de pagamento utilizado foi `} <span>{checkout.paymentMethod}</span></h2>
             <TotalBox>
                 <p>Total da sua compra: R$ {balance/currencyTransform}</p>

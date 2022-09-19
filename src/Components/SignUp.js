@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import icon from "../assets/greatball.png";
 import { signUp } from "../services/pokemart";
 
 export default function SignUp() {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,7 +15,7 @@ export default function SignUp() {
     e.preventDefault();
     if (!(password === passwordConfirme)) {
       setPasswordConfirme("");
-      alert("senhas nao coincidem");
+      alert("Senhas não coincidem");
     } else {
       const body = { name, email, password };
       signUp(body)
@@ -25,6 +26,7 @@ export default function SignUp() {
           setPassword("");
           setPasswordConfirme("");
         })
+        navigate('/')
         .catch((error) => {
           return alert(error.message);
         });
@@ -75,12 +77,14 @@ export default function SignUp() {
 }
 
 const Wraper = styled.div`
-  width: 100%;
-  height: 100vh;
-  background-color: #00509d;
+  background-color: #11296B;
+  min-height: 100vh;
+  margin: auto;
+  padding: 5%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   form {
     display: flex;
     flex-direction: column;
@@ -133,7 +137,6 @@ const Forms = styled.form`
 `;
 
 const Logo = styled.h1`
-  margin-top: 40%;
   margin-bottom: 40px;
   font-family: "Luckiest Guy", cursive;
   font-size: 50px;

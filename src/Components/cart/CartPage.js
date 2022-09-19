@@ -22,17 +22,17 @@ function CartPage() {
     } else {
       setCart(productsData);
     }
-  }, [setCart, localData]);
+  }, [setCart, localData, productsData]);
 
   return (
     <>
       <Header $display={"false"} />
       <Main>
         <h1>
-          {localData?.token
-            ? `${(<span>{localData.username}</span>)},`
-            : "Visitante,"}{" "}
-          esse é seu carrinho:
+          <span>{localData?.token
+            ? localData.username
+            : "Visitante"}</span>
+          , esse é seu carrinho:
         </h1>
 
         {cart && cart.length !== 0 ? <FullCart /> : <EmptyCart />}
@@ -44,14 +44,12 @@ function CartPage() {
 export default CartPage;
 
 const Main = styled.div`
-  background-color: #11296b;
+  background-color: #00509D;
   min-height: 100vh;
-  margin: auto;
+  margin: 150px auto 0 auto;
   padding: 3%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   h1 {
     font-weight: 700;
     font-size: 32px;
