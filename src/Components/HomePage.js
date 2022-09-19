@@ -34,7 +34,8 @@ export default function HomePage() {
   function sendToCart(product) {
     if (logged) {
       setCartFront([...cartFront, product]);
-      updateCart(cartFront).then((res) => console.log(res.data));
+      const products = [...cartFront, product];
+      updateCart(products).then((res) => console.log(res.data));
     } else {
       setCartFront([...cartFront, product]);
       const products = [...cartFront, product];
@@ -55,20 +56,16 @@ export default function HomePage() {
       }));
       setProducts(newpokes);
     });
+    const userSerial = localStorage.getItem("pokemart");
+    const userLocal = JSON.parse(userSerial);
     if (cartLocal !== null) {
       setCartFront(cartLocal.products);
     }
-    const userSerial = localStorage.getItem("pokemart");
-    const userLocal = JSON.parse(userSerial);
     if (userLocal === null) {
       setLogged(false);
     } else {
       setLogged(true);
-      getCart().then((res) => {
-        if (res.data.products && res.data.products.length !== 0) {
-          setCartFront(res.data.products);
-        }
-      });
+      getCart().then((res) => setCartFront(res.data.products));
     }
   }, [setCartFront, cartLocal]);
 
