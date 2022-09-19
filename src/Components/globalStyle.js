@@ -53,18 +53,9 @@ table {
 *{
     box-sizing: border-box;
 }
-a:link {
+a {
     text-decoration: none;
-  }
-  a:visited {
-    text-decoration: none;
-  }
-  a:hover {
-    text-decoration: none;
-  }
-  a:active {
-    text-decoration: underline;
-  }
+}
 `;
 
 export default GlobalStyle;
